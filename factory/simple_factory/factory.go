@@ -6,7 +6,7 @@ const (
 	BubbleSort Approach = iota
 )
 
-type Sorter interface {
+type ISorter interface {
 	Sort([]int)
 }
 
@@ -17,7 +17,7 @@ func (b BubbleSorter) Sort(arr []int) {
 
 }
 
-func NewSorter(a Approach) Sorter {
+func NewSorter(a Approach) ISorter {
 	switch a {
 	case BubbleSort:
 		return BubbleSorter{}
