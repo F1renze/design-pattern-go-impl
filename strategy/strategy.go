@@ -1,6 +1,8 @@
 package strategy
 
-import "math"
+import (
+	"math"
+)
 
 type IStrategy interface {
 	AcceptCash(money float64) float64
@@ -45,26 +47,32 @@ const (
 	Return
 )
 
-func NewContest() Context{
-	return Context{}
+type IContext interface {
+	CashContext(kind Kind)
+	GetResult(money float64) float64
+}
+
+func NewContest() IContext{
+	return &Context{}
 }
 
 type Context struct {
 	strategy IStrategy
 }
 
-func (c Context) CashContext(kind Kind) {
+// use ptr receiver instead value receiver, so that changing can work
+func (c *Context) CashContext(kind Kind) {
 	switch kind {
 	case Normal:
 		c.strategy = CashNormal{}
 	case Rebate:
 		// TODO param
-		c.strategy = CashRebate{}
+		c.strategy = CashRebate{moneyRebate: 0.8}
 	case Return:
-		c.strategy = CashReturn{}
+		c.strategy = CashReturn{moneyCondition: 300, moneyReturn: 50}
 	}
 }
 
-func (c Context) GetResult(money float64) float64 {
+func (c *Context) GetResult(money float64) float64 {
 	return c.strategy.AcceptCash(money)
 }

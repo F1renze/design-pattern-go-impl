@@ -1,9 +1,12 @@
 package strategy
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestContext(t *testing.T) {
 	c := NewContest()
-	c.CashContext(Normal)
-	c.GetResult(99)
+	c.CashContext(Rebate)
+	fmt.Println(c.GetResult(99))
 }
